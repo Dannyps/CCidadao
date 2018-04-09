@@ -15,4 +15,12 @@ class CCidadaoTest extends TestCase
         $this->assertEquals(1, CCidadao::getVCD("153666960ZZ"));
     }
 
+    public function testGetVCD(){
+        $this->assertEquals(1, CCidadao::getVCD('153666960ZZ'));
+        $this->assertEquals(3, CCidadao::getVCD('153666960ZY'));
+        $this->assertEquals(5, CCidadao::getVCD('096273801ZY'));
+        $this->assertEquals(2, CCidadao::getVCD('62350080ZZ'));
+        $this->assertEquals(4, CCidadao::getVCD('000000000ZZ'));
+    }
+
 }

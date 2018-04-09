@@ -69,11 +69,40 @@ class CCidadao{
         return $res;
     }
 
+    private static function f($a):int{
+        $a*=2;
+        if($a >=10) $a-=9;
+        return $a;
+    }
+
     public static function getVCD($num):int{
 
+
+        $arr = sscanf ( $num , "%d%c%c");
+        $arr[1] = CCidadao::getValueByLetter($arr[1]);
+        $arr[2] = CCidadao::getValueByLetter($arr[2]);
+        $sum = CCidadao::f($arr[2])+$arr[1];
+        $arr2  = array_map('intval', str_split($arr[0]));
+        for($i = count($arr2)-1, $j=0; $i>=0; $j++, $i--){
+            if($j % 2 == 0){
+                $sum+=CCidadao::f($arr2[$i]);
+            }else{
+                $sum+=$arr2[$i];
+            }
+        }
+        $sum2=ceil($sum/10);
+        $sum2*=10;
+
+        return $sum2-$sum;
+    }
+
+    public static function getValueByLetter($letter):int {
+        return ord($letter)-55;
     }
     
 }
 
 $c = new CCidadao();
+
+#echo $c->getVCD('153666960ZZ');
 
