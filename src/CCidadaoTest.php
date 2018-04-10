@@ -7,20 +7,29 @@ use PHPUnit\Framework\TestCase;
 class CCidadaoTest extends TestCase
 {
     public function testCCD(){
-        $this->assertEquals(8, CCidadao::getCCD(1569448));
-        $this->assertEquals(1, CCidadao::getCCD(19283745));
+        $this->assertEquals(8, (new CCidadao("1569448_"))->getCCd());
+        $this->assertEquals(1, (new CCidadao("19283745_"))->getCCd());
     }
 
     public function testVCD(){
-        $this->assertEquals(1, CCidadao::getVCD("153666960ZZ"));
+        $this->assertEquals(1, (new CCidadao("153666960ZZ"))->getVCD());
+        $this->assertEquals(3, (new CCidadao("153666960ZY"))->getVCD());
+        $this->assertEquals(5, (new CCidadao("096273801ZY"))->getVCD());
+        $this->assertEquals(2, (new CCidadao("62350080ZZ"))->getVCD());
+        $this->assertEquals(4, (new CCidadao("000000000ZZ"))->getVCD());
+    }
+    
+
+    public function testGetVersion(){
+        $this->assertEquals(1, CCidadao::getVersion('ZZ'));
+        $this->assertEquals(2, CCidadao::getVersion('ZY'));
+        $this->assertEquals(676, CCidadao::getVersion('AA'));
     }
 
-    public function testGetVCD(){
-        $this->assertEquals(1, CCidadao::getVCD('153666960ZZ'));
-        $this->assertEquals(3, CCidadao::getVCD('153666960ZY'));
-        $this->assertEquals(5, CCidadao::getVCD('096273801ZY'));
-        $this->assertEquals(2, CCidadao::getVCD('62350080ZZ'));
-        $this->assertEquals(4, CCidadao::getVCD('000000000ZZ'));
+    public function testConstructor(){
+        $this->expectException(Exception::class);
+        $c = new CCidadao("35354354", "-5");
+        $this->assertEquals(3535435, $c->getNum());
     }
 
 }
