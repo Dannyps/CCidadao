@@ -62,24 +62,30 @@ class CCidadao
      * CCidadao constructor.
      * @param string $num
      * @param int $ver
+     * @throws InvalidArgumentException
      */
     function __construct($num, $ver = null){
         if($ver!=null){
             if($ver <= 0 || $ver > 676){
-                throw new Exception("Invalid version.");
+                throw new InvalidArgumentException("Invalid version.");
             }
         }
         $match = [];
         preg_match("/^(?<num>\d*)(?<ccd>\d|_)(?<vcc>.{2}|__|)(?<vcd>\d|_|)$/m", $num, $match);
 
         // num is always passed
-        $this->num = $match['num'];
+        $this->num = (int) $match['num'];
 
         if ($match['ccd'] == '_') {
             // incomplete. We must compute the ccd
             $this->ccd = self::getCCDbyNum($this->num);
         } else {
-            $this->ccd = $match['ccd'];
+
+            if($match['ccd']!=self::getCCDbyNum($this->num)){
+                throw new InvalidArgumentException("Invalid CCD passed.");
+            }else{
+                $this->ccd = $match['ccd'];
+            }
         }
 
         // version numbers take precedence. If a version number is set, the $vcc is discarded.
@@ -94,6 +100,17 @@ class CCidadao
             $this->vcc = $this->getVCCbyVersion($ver-1);
         }
 
+        if ($match['vcd'] == '_' || $match['vcd']==null) {
+            // incomplete. We must compute the ccd
+            $this->vcd = self::getVCD();
+        } else {
+
+            if($match['vcd']!=self::getVCD()){
+                throw new InvalidArgumentException("Invalid VCD passed.");
+            }else{
+                $this->vcd = $match['vcd'];
+            }
+        }
 
         //var_dump($match);
         return;

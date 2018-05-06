@@ -18,7 +18,7 @@ class CCidadaoTest extends TestCase
         $this->assertEquals(2, (new CCidadao("62350080ZZ"))->getVCD());
         $this->assertEquals(4, (new CCidadao("000000000ZZ"))->getVCD());
     }
-    
+
 
     public function testGetVersion(){
         $this->assertEquals(1, CCidadao::getVersion('ZZ'));
@@ -27,7 +27,7 @@ class CCidadaoTest extends TestCase
     }
 
     public function testConstructor(){
-        $this->expectException(Exception::class);
+        $this->expectException(InvalidArgumentException::class);
         $c = new CCidadao("35354354", "-5");
         $this->assertEquals(3535435, $c->getNum());
     }
