@@ -7,8 +7,8 @@ use PHPUnit\Framework\TestCase;
 class CCidadaoTest extends TestCase
 {
     public function testCCD(){
-        $this->assertEquals(8, (new CCidadao("1569448_"))->getCCd());
-        $this->assertEquals(1, (new CCidadao("19283745_"))->getCCd());
+        $this->assertEquals(8, (new CCidadao("1569448_"))->getCCD());
+        $this->assertEquals(1, (new CCidadao("19283745_"))->getCCD());
     }
 
     public function testVCD(){

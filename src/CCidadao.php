@@ -38,7 +38,7 @@ class CCidadao
     /**
      * @return int
      */
-    public function getCcd(): int
+    public function getCCD(): int
     {
         return $this->ccd;
     }
