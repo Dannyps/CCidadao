@@ -1,0 +1,12 @@
+{
+    "name": "dannyps/ccidadao",
+	"description": "A class for generating and validating Portuguese CC Numbers.",
+	"require": {
+        "php": "^5.3.3"
+    },
+    "autoload": {
+        "psr-0" : {
+            "Dannyps\\CCidadao" : "src"
+        }
+    }
+}
