@@ -21,15 +21,29 @@ class CCidadaoTest extends TestCase
 
 
     public function testGetVersion(){
-        $this->assertEquals(1, CCidadao::getVersion('ZZ'));
-        $this->assertEquals(2, CCidadao::getVersion('ZY'));
-        $this->assertEquals(676, CCidadao::getVersion('AA'));
+        $this->assertEquals(1, CCidadao::staticGetVersion('ZZ'));
+        $this->assertEquals(2, CCidadao::staticGetVersion('ZY'));
+        $this->assertEquals(676, CCidadao::staticGetVersion('AA'));
+    }
+
+    public function testConstructorException(){
+        $this->expectException(InvalidArgumentException::class);
+        $c = new CCidadao("35354354", "-5");
     }
 
     public function testConstructor(){
-        $this->expectException(InvalidArgumentException::class);
-        $c = new CCidadao("35354354", "-5");
-        $this->assertEquals(3535435, $c->getNum());
+        $c = new CCidadao("153666960ZZ1");
+        $this->assertEquals(15366696, $c->getNum());
+        $this->assertEquals(1, $c->getVCD());
+        $this->assertEquals(0, $c->getCCD());
+        $this->assertEquals(1, $c->getVersion());
+        $c->next();
+        $this->assertEquals(2, $c->getVersion());
+        $this->assertTrue($c->equals("153666960ZY3"));
+        $c->rewind();
+        $this->assertEquals(1, $c->getVersion());
+        $this->assertTrue($c->equals("153666960ZZ1"));
+
     }
 
 }

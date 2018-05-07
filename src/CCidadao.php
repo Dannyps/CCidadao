@@ -27,8 +27,7 @@
  *  $ver is an internal integer variable representing the version of the present document.
  *
  */
-class CCidadao
-{
+class CCidadao implements Iterator {
 
     /** @brief the constant check digit of the current document (0 to 9).
      * @var int
@@ -84,7 +83,7 @@ class CCidadao
             if($match['ccd']!=self::getCCDbyNum($this->num)){
                 throw new InvalidArgumentException("Invalid CCD passed.");
             }else{
-                $this->ccd = $match['ccd'];
+                $this->ccd = (int) $match['ccd'];
             }
         }
 
@@ -127,11 +126,9 @@ class CCidadao
 
     public static function getVCCbyVersion($ver): string
     {
-        $c1 = '';
-        $c2 = '';
-        echo self::getLetterByIndexRev((int) ($ver / 26));
-        echo self::getLetterByIndexRev($ver % 26);
-        die();
+        $c1 = self::getLetterByIndexRev((int) ($ver / 26));
+        $c2 = self::getLetterByIndexRev($ver-1 % 26);
+        return $c1.$c2;
 
     }
 
@@ -144,7 +141,7 @@ class CCidadao
         }
         $res = ceil($sum / 11) * 11 - $sum;
         if ($res == 10) $res = 0;
-        return $res;
+        return (int) $res;
     }
 
     private static function f($a): int
@@ -179,7 +176,7 @@ class CCidadao
         return ord($letter) - 55;
     }
 
-    public static function getVersion($twoChars):int{
+    public static function staticGetVersion($twoChars):int{
         if(strlen($twoChars) != 2){
             throw new InvalidArgumentException("Two characters expected.");
         }
@@ -189,5 +186,100 @@ class CCidadao
         return (ord('Z')-ord($c1))*26+(ord('Z')-ord($c2))+1;
     }
 
+    public function getVersion(){
+        return self::staticGetVersion($this->vcc);
+    }
+
+    public function equals($num) {
+
+        $match = [];
+        preg_match("/^(?<num>\d*)(?<ccd>\d|_)(?<vcc>.{2}|__|)(?<vcd>\d|_|)$/m", $num, $match);
+
+
+        var_dump($match);
+
+        $ret = true;
+
+        if($this->num !== (int) $match['num']){
+            return false;
+        }
+
+        if($this->ccd !== (int) $match['ccd']){
+            return false;
+        }
+
+        if($this->vcc !== $match['vcc']){
+            return false;
+        }
+
+        if($this->vcd !== (int) $match['vcd']){
+            return false;
+        }
+
+        // all checks passed.
+        return true;
+    }
+
+    public function getNum(){
+        return $this->num;
+    }
+
+    /**
+     * Return the current element
+     * @link http://php.net/manual/en/iterator.current.php
+     * @return mixed Can return any type.
+     * @since 5.0.0
+     */
+    public function current()
+    {
+        return $this;
+    }
+
+    /**
+     * Move forward to next element
+     * @link http://php.net/manual/en/iterator.next.php
+     * @return void Any returned value is ignored.
+     * @since 5.0.0
+     */
+    public function next()
+    {
+        $this->vcc = self::getVCCbyVersion($this->getVersion()+1);
+        $this->vcd = $this->getVCD();
+    }
+
+    /**
+     * Return the key of the current element
+     * @link http://php.net/manual/en/iterator.key.php
+     * @return mixed scalar on success, or null on failure.
+     * @since 5.0.0
+     */
+    public function key()
+    {
+        return $this->getVersion();
+    }
+
+    /**
+     * Checks if current position is valid
+     * @link http://php.net/manual/en/iterator.valid.php
+     * @return boolean The return value will be casted to boolean and then evaluated.
+     * Returns true on success or false on failure.
+     * @since 5.0.0
+     */
+    public function valid()
+    {
+        return ($this->getVersion() >=0 && $this->getVersion()<=676);
+    }
+
+    /**
+     * Rewind the Iterator to the first element
+     * @link http://php.net/manual/en/iterator.rewind.php
+     * @return void Any returned value is ignored.
+     * @since 5.0.0
+     */
+    public function rewind()
+    {
+        $this->vcc = self::getVCCbyVersion($this->getVersion()-1);
+        $this->vcd = $this->getVCD();
+    }
 }
 
