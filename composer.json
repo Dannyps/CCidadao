@@ -1,6 +1,6 @@
 {
     "name": "dannyps/ccidadao",
-	"description": "A class for generating and validating Portuguese CC Numbers.",
+	"description": "A class for generating and validating Portuguese Citizen Card (CC aka Cartão de Cidadão) Numbers.",
 	"require": {
         "php": "^5.3.3"
     },
