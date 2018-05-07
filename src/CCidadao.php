@@ -27,31 +27,21 @@
  *  $ver is an internal integer variable representing the version of the present document.
  *
  */
-class CCidadao implements Iterator {
+class CCidadao implements Iterator
+{
 
     /** @brief the constant check digit of the current document (0 to 9).
      * @var int
      */
     private $ccd;
-
-    /**
-     * @return int
-     */
-    public function getCCD(): int
-    {
-        return $this->ccd;
-    }
-
     /** @brief the versioned check digit of the current document (0 to 9).
      * @var int
      */
     private $vcd;
-
     /** @brief the number of the current document (0000000 to 9999999).
      * @var int
      */
     private $num;
-
     /** @brief A two-lengthed string constaining the version characters (ZZ to AA).
      * @var string
      */
@@ -63,9 +53,10 @@ class CCidadao implements Iterator {
      * @param int $ver
      * @throws InvalidArgumentException
      */
-    function __construct($num, $ver = null){
-        if($ver!=null){
-            if($ver <= 0 || $ver > 676){
+    function __construct($num, $ver = null)
+    {
+        if ($ver != null) {
+            if ($ver <= 0 || $ver > 676) {
                 throw new InvalidArgumentException("Invalid version.");
             }
         }
@@ -73,63 +64,32 @@ class CCidadao implements Iterator {
         preg_match("/^(?<num>\d*)(?<ccd>\d|_)(?<vcc>.{2}|__|)(?<vcd>\d|_|)$/m", $num, $match);
 
         // num is always passed
-        $this->num = (int) $match['num'];
+        $this->num = (int)$match['num'];
 
-        if ($match['ccd'] == '_') {
+        $this->validateCCD($match['ccd']);
+
+        // version numbers take precedence. If a version number is set, the $vcc is discarded.
+        $this->validateVCC($ver, $match['vcc']);
+
+        $this->validateVCD($match['vcd']);
+    }
+
+    /**
+     * @param $ccd
+     */
+    private function validateCCD($ccd): void
+    {
+        if ($ccd == '_') {
             // incomplete. We must compute the ccd
             $this->ccd = self::getCCDbyNum($this->num);
         } else {
 
-            if($match['ccd']!=self::getCCDbyNum($this->num)){
+            if ($ccd != self::getCCDbyNum($this->num)) {
                 throw new InvalidArgumentException("Invalid CCD passed.");
-            }else{
-                $this->ccd = (int) $match['ccd'];
-            }
-        }
-
-        // version numbers take precedence. If a version number is set, the $vcc is discarded.
-        if ($ver == null) {
-            if ($match['vcc'] == '__') {
-                // default version is 1 => ZZ
-                $this->vcc = 'ZZ';
             } else {
-                $this->vcc = $match['vcc'];
-            }
-        } else {
-            $this->vcc = $this->getVCCbyVersion($ver-1);
-        }
-
-        if ($match['vcd'] == '_' || $match['vcd']==null) {
-            // incomplete. We must compute the ccd
-            $this->vcd = self::getVCD();
-        } else {
-
-            if($match['vcd']!=self::getVCD()){
-                throw new InvalidArgumentException("Invalid VCD passed.");
-            }else{
-                $this->vcd = $match['vcd'];
+                $this->ccd = (int)$ccd;
             }
         }
-
-        //var_dump($match);
-        return;
-    }
-
-    private static function getLetterByIndexRev($i)
-    {
-        // 0  -> Z
-        // 1  -> Y
-        // 25 -> A
-
-        return chr(ord('Z') - $i);
-    }
-
-    public static function getVCCbyVersion($ver): string
-    {
-        $c1 = self::getLetterByIndexRev((int) ($ver / 26));
-        $c2 = self::getLetterByIndexRev($ver-1 % 26);
-        return $c1.$c2;
-
     }
 
     public static function getCCDbyNum($num): int
@@ -141,19 +101,65 @@ class CCidadao implements Iterator {
         }
         $res = ceil($sum / 11) * 11 - $sum;
         if ($res == 10) $res = 0;
-        return (int) $res;
+        return (int)$res;
     }
 
-    private static function f($a): int
+    /**
+     * @param $ver
+     * @param $vcc
+     */
+    private function validateVCC($ver, $vcc): void
     {
-        $a *= 2;
-        if ($a >= 10) $a -= 9;
-        return $a;
+        if ($ver == null) {
+            if ($vcc == '__') {
+                // default version is 1 => ZZ
+                $this->vcc = 'ZZ';
+            } else {
+                $this->vcc = $vcc;
+            }
+        } else {
+            $this->vcc = $this->getVCCbyVersion($ver - 1);
+        }
+    }
+
+    public static function getVCCbyVersion($ver): string
+    {
+        $ch1 = self::getLetterByIndexRev((int)($ver / 26));
+        $ch2 = self::getLetterByIndexRev($ver - 1 % 26);
+        return $ch1 . $ch2;
+
+    }
+
+    private static function getLetterByIndexRev($ind)
+    {
+        // 0  -> Z
+        // 1  -> Y
+        // 25 -> A
+
+        return chr(ord('Z') - $ind);
+    }
+
+    /**
+     * @param $vcd
+     */
+    private function validateVCD($vcd): void
+    {
+        if ($vcd == '_' || $vcd == null) {
+            // incomplete. We must compute the ccd
+            $this->vcd = self::getVCD();
+        } else {
+
+            if ($vcd != self::getVCD()) {
+                throw new InvalidArgumentException("Invalid VCD passed.");
+            } else {
+                $this->vcd = $vcd;
+            }
+        }
     }
 
     public function getVCD(): int
     {
-        $arr = sscanf($this->num.$this->ccd.$this->vcc, "%d%c%c");
+        $arr = sscanf($this->num . $this->ccd . $this->vcc, "%d%c%c");
         $arr[1] = self::getValueByLetter($arr[1]);
         $arr[2] = self::getValueByLetter($arr[2]);
         $sum = self::f($arr[2]) + $arr[1];
@@ -176,40 +182,40 @@ class CCidadao implements Iterator {
         return ord($letter) - 55;
     }
 
-    public static function staticGetVersion($twoChars):int{
-        if(strlen($twoChars) != 2){
-            throw new InvalidArgumentException("Two characters expected.");
-        }
-        $c1 = $twoChars[0];
-        $c2 = $twoChars[1];
-
-        return (ord('Z')-ord($c1))*26+(ord('Z')-ord($c2))+1;
+    private static function f($a): int
+    {
+        $a *= 2;
+        if ($a >= 10) $a -= 9;
+        return $a;
     }
 
-    public function getVersion(){
-        return self::staticGetVersion($this->vcc);
+    /**
+     * @return int
+     */
+    public function getCCD(): int
+    {
+        return $this->ccd;
     }
 
-    public function equals($num) {
+    public function equals($num)
+    {
 
         $match = [];
         preg_match("/^(?<num>\d*)(?<ccd>\d|_)(?<vcc>.{2}|__|)(?<vcd>\d|_|)$/m", $num, $match);
 
-        $ret = true;
-
-        if($this->num !== (int) $match['num']){
+        if ($this->num !== (int)$match['num']) {
             return false;
         }
 
-        if($this->ccd !== (int) $match['ccd']){
+        if ($this->ccd !== (int)$match['ccd']) {
             return false;
         }
 
-        if($this->vcc !== $match['vcc']){
+        if ($this->vcc !== $match['vcc']) {
             return false;
         }
 
-        if($this->vcd !== (int) $match['vcd']){
+        if ($this->vcd !== (int)$match['vcd']) {
             return false;
         }
 
@@ -217,7 +223,8 @@ class CCidadao implements Iterator {
         return true;
     }
 
-    public function getNum(){
+    public function getNum()
+    {
         return $this->num;
     }
 
@@ -240,8 +247,24 @@ class CCidadao implements Iterator {
      */
     public function next()
     {
-        $this->vcc = self::getVCCbyVersion($this->getVersion()+1);
+        $this->vcc = self::getVCCbyVersion($this->getVersion() + 1);
         $this->vcd = $this->getVCD();
+    }
+
+    public function getVersion()
+    {
+        return self::staticGetVersion($this->vcc);
+    }
+
+    public static function staticGetVersion($twoChars): int
+    {
+        if (strlen($twoChars) != 2) {
+            throw new InvalidArgumentException("Two characters expected.");
+        }
+        $ch1 = $twoChars[0];
+        $ch2 = $twoChars[1];
+
+        return (ord('Z') - ord($ch1)) * 26 + (ord('Z') - ord($ch2)) + 1;
     }
 
     /**
@@ -264,7 +287,7 @@ class CCidadao implements Iterator {
      */
     public function valid()
     {
-        return ($this->getVersion() >=0 && $this->getVersion()<=676);
+        return ($this->getVersion() >= 0 && $this->getVersion() <= 676);
     }
 
     /**
@@ -275,7 +298,7 @@ class CCidadao implements Iterator {
      */
     public function rewind()
     {
-        $this->vcc = self::getVCCbyVersion($this->getVersion()-1);
+        $this->vcc = self::getVCCbyVersion($this->getVersion() - 1);
         $this->vcd = $this->getVCD();
     }
 }

@@ -26,24 +26,24 @@ class CCidadaoTest extends TestCase
 
     public function testConstructorException(){
         $this->expectException(InvalidArgumentException::class);
-        $c = new CCidadao("35354354", "-5");
+        new CCidadao("35354354", "-5");
     }
 
     public function testConstructor(){
-        $c = new CCidadao("045212244ZZ7");
+        $ncc = new CCidadao("045212244ZZ7");
 
-        $this->assertEquals(4521224, $c->getNum());
+        $this->assertEquals(4521224, $ncc->getNum());
 
-        $this->assertEquals(7, $c->getVCD());
-        $this->assertEquals(4, $c->getCCD());
-        $this->assertEquals(1, $c->getVersion());
-        $c->next();
-        $this->assertEquals(2, $c->getVersion());
-        $this->assertEquals(9, $c->getVCD());
-        $this->assertTrue($c->equals("045212244ZY9"));
-        $c->rewind();
-        $this->assertEquals(1, $c->getVersion());
-        $this->assertTrue($c->equals("045212244ZZ7"));
+        $this->assertEquals(7, $ncc->getVCD());
+        $this->assertEquals(4, $ncc->getCCD());
+        $this->assertEquals(1, $ncc->getVersion());
+        $ncc->next();
+        $this->assertEquals(2, $ncc->getVersion());
+        $this->assertEquals(9, $ncc->getVCD());
+        $this->assertTrue($ncc->equals("045212244ZY9"));
+        $ncc->rewind();
+        $this->assertEquals(1, $ncc->getVersion());
+        $this->assertTrue($ncc->equals("045212244ZZ7"));
 
     }
 
