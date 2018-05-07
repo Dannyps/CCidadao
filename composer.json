@@ -8,5 +8,6 @@
         "psr-0" : {
             "Dannyps\\CCidadao" : "src"
         }
-    }
+    },
+    "license": "MIT"
 }
