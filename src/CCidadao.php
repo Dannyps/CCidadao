@@ -6,12 +6,14 @@
  *
  * In the example number:
  *
+ * ```
  * 12345678  9  ZZ  0
  *     |     |   |  |
  *     |     |   |  -> Versioned check digit ----> $vcd -> D
  *     |     |   ----> Verion chars -------------> $vcc -> Z
  *     |     --------> Constant check digit -----> $ccd -> C
- *     --------------> the number itslef --------> $num -> N
+ *     --------------> the number itself --------> $num -> N
+ * ```
  *
  *  The version chars represent the version of the document in the following manner:
  *   - ZZ => v1
@@ -286,6 +288,11 @@ class CCidadao implements Iterator {
     public function rewind() {
         $this->vcc = self::getVCCbyVersion($this->getVersion() - 1);
         $this->vcd = $this->getVCD();
+    }
+
+    public function __toString()
+    {
+        //return $num.$ccd.$vcc.
     }
 }
 

@@ -44,7 +44,12 @@ class CCidadaoTest extends TestCase
         $ncc->rewind();
         $this->assertEquals(1, $ncc->getVersion());
         $this->assertTrue($ncc->equals("045212244ZZ7"));
+    }
 
+    public function testIter(){
+        foreach(new CCidadao("15366696_ZZ_") as $c){
+            echo $c;
+        }
     }
 
 }
