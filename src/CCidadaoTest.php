@@ -1,6 +1,7 @@
 <?php
 
 require 'CCidadao.php';
+require '..\vendor\autoload.php';
 
 use PHPUnit\Framework\TestCase;
 
@@ -48,7 +49,7 @@ class CCidadaoTest extends TestCase
 
     public function testIter(){
         foreach(new CCidadao("15366696_ZZ_") as $c){
-            echo $c;
+            echo "here: ". $c;
         }
     }
 

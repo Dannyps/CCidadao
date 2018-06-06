@@ -286,13 +286,20 @@ class CCidadao implements Iterator {
      * @since 5.0.0
      */
     public function rewind() {
-        $this->vcc = self::getVCCbyVersion($this->getVersion() - 1);
+        $this->vcc = "ZZ";
         $this->vcd = $this->getVCD();
     }
 
     public function __toString()
     {
-        //return $num.$ccd.$vcc.
+        return "".$this->num.$this->ccd.$this->vcc.$this->vcd;
     }
 }
+
+$cc = new CCidadao("15366696_ZZ_");
+
+foreach($cc as $c){
+            echo "next: ". $c . " v" . $c->getVersion().  PHP_EOL;
+        }
+
 
