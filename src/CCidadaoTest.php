@@ -56,7 +56,6 @@ class CCidadaoTest extends TestCase {
 	}
 	public function testIteration() {
 		$i = 1;
-		echo PHP_EOL;
 		foreach ( new CCidadao ( "15366696_ZZ_" ) as $c ) {
 			$this->assertEquals ( $i ++, $c->getVersion () );
 		}
