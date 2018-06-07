@@ -55,9 +55,9 @@ class CCidadaoTest extends TestCase {
 		$this->assertTrue ( $ncc->equals ( "045212244ZZ7" ) );
 	}
 	public function testIteration() {
-		$i = 1;
+		$iter = 1;
 		foreach ( new CCidadao ( "15366696_ZZ_" ) as $c ) {
-			$this->assertEquals ( $i ++, $c->getVersion () );
+			$this->assertEquals ( $iter ++, $c->getVersion () );
 		}
 	}
 }

@@ -95,15 +95,21 @@ class CCidadao implements Iterator {
 		if ($ccd == '_') {
 			// incomplete. We must compute the ccd
 			$this->ccd = self::getCCDbyNum ( $this->num );
+			return;
+		}
+		
+		if ($ccd != self::getCCDbyNum ( $this->num )) {
+			throw new InvalidArgumentException ( "Invalid CCD passed." );
 		} else {
-			
-			if ($ccd != self::getCCDbyNum ( $this->num )) {
-				throw new InvalidArgumentException ( "Invalid CCD passed." );
-			} else {
-				$this->ccd = ( int ) $ccd;
-			}
+			$this->ccd = ( int ) $ccd;
 		}
 	}
+	
+	/**
+	 *
+	 * @param string $num
+	 * @return int
+	 */
 	public static function getCCDbyNum($num): int {
 		$array = array_map ( 'intval', str_split ( $num ) );
 		$sum = 0;
@@ -183,11 +189,11 @@ class CCidadao implements Iterator {
 	public static function getValueByLetter($letter): int {
 		return ord ( $letter ) - 55;
 	}
-	private static function f($a): int {
-		$a *= 2;
-		if ($a >= 10)
-			$a -= 9;
-		return $a;
+	private static function f($arg): int {
+		$arg *= 2;
+		if ($arg >= 10)
+			$arg -= 9;
+		return $arg;
 	}
 	
 	/**
