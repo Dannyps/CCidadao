@@ -1,33 +1,38 @@
 <?php
+/**
+ * CCidadao | src/CCidadao.php
+ *
+ * @package     CCidadao
+ * @author      Daniel Silva
+ * @version     v.0.1
+ */
 
 /**
- * Citizen cards are a complicated subject. THey have two check digits, and a weird version control system.
+ * Portuguese Citizen Cards are a complicated subject.
+ * They have two check digits, and a weird version control system.
  * Internal variables contain the following fields:
  *
  * In the example number:
  *
  * ```
- * 12345678  9  ZZ  0
- *     |     |   |  |
- *     |     |   |  -> Versioned check digit ----> $vcd -> D
- *     |     |   ----> Verion chars -------------> $vcc -> Z
- *     |     --------> Constant check digit -----> $ccd -> C
- *     --------------> the number itself --------> $num -> N
+ * 12345678 9 ZZ 0
+ * | | | |
+ * | | | -> Versioned check digit ----> $vcd
+ * | | ----> Verion chars -------------> $vcc
+ * | --------> Constant check digit -----> $ccd
+ * --------------> the number itself --------> $num
  * ```
  *
- *  The version chars represent the version of the document in the following manner:
- *   - ZZ => v1
- *   - ZY => v2
- *   - ZX => v3
- *   - ...
- *   - ZA => v26
- *   - YZ => v27
- *   etc...
+ * The version chars represent the version of the document in the following manner:
+ * - ZZ => v1
+ * - ZY => v2
+ * - ZX => v3
+ * - ...
+ * - ZA => v26
+ * - YZ => v27
+ * - etc...
  *
- *  Both $ccd and $vcd can be determined, provided the $num and $ver/$vcc are available, respectively.
- *
- *  $ver is an internal integer variable representing the version of the present document.
- *
+ * Both `$ccd` and `$vcd` can be determined, provided the `$num` and `$ver/$vcc` are available, respectively.
  */
 class CCidadao implements Iterator {
 	
@@ -75,6 +80,7 @@ class CCidadao implements Iterator {
 		}
 		$match = [ ];
 		preg_match ( "/^(?<num>\d*)(?<ccd>\d|_)(?<vcc>.{2}|__|)(?<vcd>\d|_|)$/m", $num, $match );
+		var_dump ( $match );
 		
 		// num is always passed
 		$this->num = ( int ) $match ['num'];
@@ -88,8 +94,11 @@ class CCidadao implements Iterator {
 	}
 	
 	/**
+	 * Make sure the passed ccd is valid, considering the currently set num.
 	 *
 	 * @param int $ccd
+	 *
+	 * @throws Exception when invalid `$ccd` passed.
 	 */
 	private function validateCCD($ccd): void {
 		if ($ccd == '_') {
@@ -99,7 +108,7 @@ class CCidadao implements Iterator {
 		}
 		
 		if ($ccd != self::getCCDbyNum ( $this->num )) {
-			throw new InvalidArgumentException ( "Invalid CCD passed." );
+			throw new Exception ( "Invalid CCD passed." );
 		} else {
 			$this->ccd = ( int ) $ccd;
 		}
@@ -129,7 +138,7 @@ class CCidadao implements Iterator {
 	 */
 	private function validateVCC($ver, $vcc): void {
 		if ($ver == null) {
-			if ($vcc == '__') {
+			if ($vcc == '__' || $vcc == "") {
 				// default version is 1 => ZZ
 				$this->vcc = 'ZZ';
 			} else {
