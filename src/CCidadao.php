@@ -1,4 +1,9 @@
 <?php
+
+namespace Dannyps\CCidadao;
+
+use Iterator;
+
 /**
  * CCidadao | src/CCidadao.php
  *
@@ -6,6 +11,7 @@
  * @author      Daniel Silva
  * @version     v.0.1
  */
+
 
 /**
  * Portuguese Citizen Cards are a complicated subject.
@@ -70,12 +76,12 @@ class CCidadao implements Iterator {
 	 * @param string $num
 	 * @param int $ver
 	 *
-	 * @throws InvalidArgumentException
+	 * @throws \InvalidArgumentException
 	 */
 	function __construct($num, $ver = null) {
 		if ($ver != null) {
 			if ($ver <= 0 || $ver > 676) {
-				throw new InvalidArgumentException ( "Invalid version." );
+				throw new \InvalidArgumentException ( "Invalid version." );
 			}
 		}
 		$match = [ ];
@@ -98,7 +104,7 @@ class CCidadao implements Iterator {
 	 *
 	 * @param int $ccd
 	 *
-	 * @throws Exception when invalid `$ccd` passed.
+	 * @throws \Exception when invalid `$ccd` passed.
 	 */
 	private function validateCCD($ccd): void {
 		if ($ccd == '_') {
@@ -108,7 +114,7 @@ class CCidadao implements Iterator {
 		}
 		
 		if ($ccd != self::getCCDbyNum ( $this->num )) {
-			throw new Exception ( "Invalid CCD passed." );
+			throw new \Exception ( "Invalid CCD passed." );
 		} else {
 			$this->ccd = ( int ) $ccd;
 		}
@@ -171,7 +177,7 @@ class CCidadao implements Iterator {
 		} else {
 			
 			if ($vcd != self::getVCD ()) {
-				throw new InvalidArgumentException ( "Invalid VCD passed." );
+				throw new \InvalidArgumentException ( "Invalid VCD passed." );
 			} else {
 				$this->vcd = $vcd;
 			}
@@ -266,7 +272,7 @@ class CCidadao implements Iterator {
 	}
 	public static function staticGetVersion(String $twoChars): int {
 		if (strlen ( $twoChars ) != 2) {
-			throw new InvalidArgumentException ( "Two characters expected." );
+			throw new \InvalidArgumentException ( "Two characters expected." );
 		}
 		$ch1 = $twoChars [0];
 		$ch2 = $twoChars [1];

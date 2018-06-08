@@ -7,10 +7,10 @@
  * @version     v.0.1
  */
 
-require 'CCidadao.php';
 require '..\vendor\autoload.php';
 
 use PHPUnit\Framework\TestCase;
+use Dannyps\CCidadao\CCidadao;
 /**
  * Tests for CCidadao
  * @see CCidadao
