@@ -15,5 +15,10 @@
 			"homepage" : "https://dannyps.net",
 			"role" : "Author"
 		}
-	]
+	],
+	"autoload" : {
+		"classmap" : [
+			"src/"
+		]
+	}
 }
