@@ -80,8 +80,8 @@ class CCidadao implements Iterator {
 		}
 		$match = [ ];
 		preg_match ( "/^(?<num>\d*)(?<ccd>\d|_)(?<vcc>.{2}|__|)(?<vcd>\d|_|)$/m", $num, $match );
-		var_dump ( $match );
-		
+
+
 		// num is always passed
 		$this->num = ( int ) $match ['num'];
 		
