@@ -117,6 +117,9 @@ class CCidadaoTest extends TestCase {
 		$ncc->rewind ();
 		$this->assertEquals ( 1, $ncc->getVersion () );
 		$this->assertTrue ( $ncc->equals ( "045212244ZZ7" ) );
+		
+		$ncc = new CCidadao("15000000_", 1);
+		$this->assertEquals("ZZ", $ncc->getvcc());
 	}
 	
 	/**

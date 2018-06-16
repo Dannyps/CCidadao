@@ -22,11 +22,11 @@ use Iterator;
  *
  * ```
  * 12345678 9 ZZ 0
- * | | | |
- * | | | -> Versioned check digit ----> $vcd
- * | | ----> Verion chars -------------> $vcc
- * | --------> Constant check digit -----> $ccd
- * --------------> the number itself --------> $num
+ * | 		|  | |
+ * |		|  | ---> Versioned check digit ----> $vcd
+ * | 		|  -----> Verion chars -------------> $vcc
+ * | 		--------> Constant check digit -----> $ccd
+ * -----------------> the number itself --------> $num
  * ```
  *
  * The version chars represent the version of the document in the following manner:
@@ -71,6 +71,13 @@ class CCidadao implements Iterator {
 	private $vcc;
 	
 	/**
+	 * @return string
+	 */
+	public function getVcc() {
+		return $this->vcc;
+	}
+
+	/**
 	 * CCidadao constructor.
 	 *
 	 * @param string $num
@@ -80,7 +87,7 @@ class CCidadao implements Iterator {
 	 */
 	function __construct($num, $ver = null) {
 		if ($ver != null) {
-			if ($ver <= 0 || $ver > 676) {
+			if ($ver < 1 || $ver > 676) {
 				throw new \InvalidArgumentException ( "Invalid version." );
 			}
 		}
@@ -151,7 +158,7 @@ class CCidadao implements Iterator {
 				$this->vcc = $vcc;
 			}
 		} else {
-			$this->vcc = $this->getVCCbyVersion ( $ver - 1 );
+			$this->vcc = $this->getVCCbyVersion ( $ver );
 		}
 	}
 	public static function getVCCbyVersion($ver): string {
