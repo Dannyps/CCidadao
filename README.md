@@ -89,3 +89,30 @@ echo ($cc);
 
 echo new CCidadao("15632563", 2);
 ```
+
+#### Validating a CC number
+
+```php
+<?php
+require 'vendor/autoload.php';
+use Dannyps\CCidadao\CCidadao;
+
+$valid = true;
+try {
+    new CCidadao("153666960ZZ1");
+} catch(Exception $e){
+    $valid = false;
+}
+
+var_dump($valid); // either true or false
+```
+
+## Motivation
+There was an interest in being able to quickly generate valid CC numbers for pentesting reasons. Thus, CCidadao was born. Its applications, however, are more abrangent than that.
+
+## Contributing
+You are welcome to contribute to the code, as well as to the documentation. You should do so by means of a Pull Request. You may use xDebug to profile the execution and find the less effecient methods.
+
+## How does it work?
+The algorithms to determine both control digits are available online, in some blogs and similar pages. Testing of this class began with real CC numbers, as this was the only way to make sure the code was developed according to reality.
+
