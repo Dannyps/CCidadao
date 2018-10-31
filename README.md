@@ -108,7 +108,7 @@ var_dump($valid); // either true or false
 ```
 
 ## Motivation
-There was an interest in being able to quickly generate valid CC numbers for pentesting reasons. Thus, CCidadao was born. Its applications, however, are more abrangent than that.
+There was an interest in being able to quickly generate valid CC numbers for pentesting reasons. Thus, CCidadao was born. It's applications, however, are more abrangent than that.
 
 ## Contributing
 You are welcome to contribute to the code, as well as to the documentation. You should do so by means of a Pull Request. You may use xDebug to profile the execution and find the less effecient methods.
