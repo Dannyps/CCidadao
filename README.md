@@ -74,7 +74,7 @@ for ($i = $beg; $i < $end; $i++) {
 ```
 #### Getting the next version of a CC number
 
-As time goes by, people get new Citizen Cards. However, their numbers are already predestined. Because of the algorithm used, it is possible to foresee all possible numbers. Moreover, we know there numbers are sequential.
+As time goes by, people get new Citizen Cards. However, their numbers are already predestined. Because of the algorithm used, it is possible to foresee all possible numbers. Moreover, we know these numbers are sequential.
 
 ```php
 <?php
@@ -108,7 +108,7 @@ var_dump($valid); // either true or false
 ```
 
 ## Motivation
-There was an interest in being able to quickly generate valid CC numbers for pentesting reasons. Thus, CCidadao was born. It's applications, however, are more abrangent than that.
+There was an interest in being able to quickly generate valid CC numbers for pentesting reasons. Thus, CCidadao was born. Its applications, however, are more abrangent than that.
 
 ## Contributing
 You are welcome to contribute to the code, as well as to the documentation. You should do so by means of a Pull Request. You may use xDebug to profile the execution and find the less effecient methods.
