@@ -4,7 +4,7 @@ CCidadao is a PHP Class used to validate and generate Citizen Card numbers.
 
 ## How to use
 
-### Installing
+### Instalation
 
 CCidadao is available on [Packagist](https://packagist.org/)! You can install it via [Composer](https://getcomposer.org/), by typing:
 
@@ -63,9 +63,7 @@ $end = 15000100;
 $arr = [];
 
 for ($i = $beg; $i < $end; $i++) {
-
     for ($j = $ver['min']; $j <= $ver['max']; $j++) {
-
         array_push($arr, (new CCidadao($i . "_", $j))->__toString());
     }
 }
@@ -115,4 +113,3 @@ You are welcome to contribute to the code, as well as to the documentation. You 
 
 ## How does it work?
 The algorithms to determine both control digits are available online, in some blogs and similar pages. Testing of this class began with real CC numbers, as this was the only way to make sure the code was developed according to reality.
-
