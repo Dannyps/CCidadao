@@ -20,5 +20,8 @@
 		"classmap" : [
 			"src/"
 		]
+	},
+	"scripts": {
+		"tests": "vendor/bin/phpunit tests/*"
 	}
 }
