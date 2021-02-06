@@ -1,15 +1,15 @@
 name: PHP Composer
+
 on: [push]
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        operating-system: [ubuntu-latest]
-        php-versions: ['7.4']
+
     steps:
-    - uses: nick-zh/composer@php7.4
+    - uses: actions/checkout@v1
+
     - name: Validate composer.json and composer.lock
       run: composer validate
 
@@ -18,7 +18,6 @@ jobs:
     
     - name: Run Tests
       run: composer run-script tests
-    
 
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
     # Docs: https://getcomposer.org/doc/articles/scripts.md
