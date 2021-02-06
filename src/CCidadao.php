@@ -252,6 +252,17 @@ class CCidadao implements Iterator {
 		return $this->num;
 	}
 	
+	public function jsonSerialize() {
+        return [
+            'num' => $this->num,
+            'vcc' => $this->vcc,
+            'ccd' => $this->ccd,
+			'vcd' => $this->vcd,
+			'iv' => $this->getVersion()
+        ];
+    }
+
+
 	/**
 	 * Return the current element
 	 *
