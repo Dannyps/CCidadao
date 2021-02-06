@@ -3,6 +3,7 @@
 namespace Dannyps\CCidadao;
 
 use Iterator;
+use JsonSerializable;
 
 /**
  * CCidadao | src/CCidadao.php
@@ -40,7 +41,7 @@ use Iterator;
  *
  * Both `$ccd` and `$vcd` can be determined, provided the `$num` and `$ver/$vcc` are available, respectively.
  */
-class CCidadao implements Iterator {
+class CCidadao implements Iterator, JsonSerializable {
 	
 	/**
 	 *
