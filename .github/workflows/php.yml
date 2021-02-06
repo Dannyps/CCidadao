@@ -4,10 +4,12 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        operating-system: [ubuntu-latest]
+        php-versions: ['7.3']
     steps:
     - uses: actions/checkout@v1
-      with:
-          php-version: '7.4'
     - name: Validate composer.json and composer.lock
       run: composer validate
 
