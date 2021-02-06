@@ -144,4 +144,17 @@ class CCidadaoTest extends TestCase
 			$this->assertEquals($iter++, $c->getVersion());
 		}
 	}
+
+	/**
+	 * Test Function
+	 * 
+	 * Assert that a CC can be jsoned.
+	 * 
+	 * @see CCidadao
+	 */
+	public function testJson()
+	{
+		$cc = new CCidadao("15366696_ZZ_");
+		$this->assertEquals(json_encode($cc), '{"num":15366696,"vcc":"ZZ","ccd":0,"vcd":1,"iv":1}');
+	}
 }
