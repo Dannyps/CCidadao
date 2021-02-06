@@ -7,9 +7,9 @@ jobs:
     strategy:
       matrix:
         operating-system: [ubuntu-latest]
-        php-versions: ['7.3']
+        php-versions: ['7.4']
     steps:
-    - uses: actions/checkout@v1
+    - uses: nick-zh/composer@php7.4
     - name: Validate composer.json and composer.lock
       run: composer validate
 
