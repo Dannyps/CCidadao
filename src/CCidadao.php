@@ -95,7 +95,9 @@ class CCidadao implements Iterator, JsonSerializable {
 		$match = [ ];
 		preg_match ( "/^(?<num>\d*)(?<ccd>\d|_)(?<vcc>.{2}|__|)(?<vcd>\d|_|)$/m", $num, $match );
 
-
+	if(empty($match))
+		throw new \InvalidArgumentException ( "Invalid number." );
+		
 		// num is always passed
 		$this->num = ( int ) $match ['num'];
 		
