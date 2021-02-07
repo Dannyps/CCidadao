@@ -158,7 +158,7 @@ class CCidadao implements Iterator, JsonSerializable {
 				// default version is 1 => ZZ
 				$this->vcc = 'ZZ';
 			} else {
-				$this->vcc = $vcc;
+				$this->vcc = strtoupper($vcc);
 			}
 		} else {
 			$this->vcc = $this->getVCCbyVersion ( $ver );
