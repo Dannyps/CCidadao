@@ -1,4 +1,6 @@
 # CCidadao
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FDannyps%2FCCidadao.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FDannyps%2FCCidadao?ref=badge_shield)
+
 
 CCidadao is a PHP Class used to validate and generate Citizen Card numbers.
 
@@ -113,3 +115,7 @@ You are welcome to contribute to the code, as well as to the documentation. You 
 
 ## How does it work?
 The algorithms to determine both control digits are available online, in some blogs and similar pages. Testing of this class began with real CC numbers, as this was the only way to make sure the code was developed according to reality.
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FDannyps%2FCCidadao.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FDannyps%2FCCidadao?ref=badge_large)
