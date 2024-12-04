@@ -1,0 +1,26 @@
+{
+	"name" : "dannyps/ccidadao",
+	"description" : "A class for generating and validating Portuguese Citizen Card (CC aka Cartão de Cidadão) Numbers.",
+	"require" : {
+		"php" : ">=7.0.0 || >=8.0.0"
+	},
+	"license" : "MIT",
+	"require-dev" : {
+		"phpunit/phpunit" : ">=9"
+	},
+	"authors" : [{
+			"name" : "Daniel Silva",
+			"email" : "mail@dannyps.net",
+			"homepage" : "https://dannyps.net",
+			"role" : "Author"
+		}
+	],
+	"autoload" : {
+		"classmap" : [
+			"src/"
+		]
+	},
+	"scripts": {
+		"tests": "vendor/bin/phpunit tests/*"
+	}
+}
