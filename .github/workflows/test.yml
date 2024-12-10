@@ -2,9 +2,9 @@ name: PHP Unit Tests
 
 on: 
   push:
-  paths: 
-    - /src/**
-    - /tests/**
+    paths: 
+      - /src/**
+      - /tests/**
 
 jobs:
   build:
