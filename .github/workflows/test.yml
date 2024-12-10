@@ -2,6 +2,7 @@ name: PHP Unit Tests
 
 on: 
   push:
+    branches:
     paths: 
       - /src/**
       - /tests/**
